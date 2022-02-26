@@ -1,0 +1,22 @@
+{
+  "name": "puppeteer-on-replit",
+  "version": "1.0.0",
+  "description": "Puppeteer on replit? HELL YEAH!",
+  "main": "school.js",
+  "scripts": {
+    "start": "node school.js",
+    "test": "echo \"no file specified\" && exit=1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "none"
+  },
+  "keywords": [
+    "puppeteer"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.26.0",
+    "puppeteer": "^2.1.1"
+  }
+}
