@@ -57,7 +57,7 @@ async function downloadFile(url, path) {
 	var filteredPdfUrls = []
 	
 	filterdPdfs.forEach((pdf, i) => {
-		console.log(pdf.url)
+		console.log('Found: ', pdf.url)
 		if (pdf.url) {
 			filteredPdfUrls.push(pdf.url)
 		}
@@ -76,9 +76,7 @@ async function downloadFile(url, path) {
 // 	})
 
 		filteredPdfUrls.forEach(async (downloadUrl, i) => {
-			var downloadPath = downloadUrl.split('/')
-			downloadPath = downloadPath[downloadPath.length - 1]
-			downloadPath = downloadPath.split('.pdf')[0] + '.pdf'
+			downloadPath = filterdPdfs[i].text + '.pdf'
 			downloadPath = __dirname + '/pdfs/' + downloadPath
 			await downloadFile(downloadUrl, downloadPath)
 			const downloadPage = await browser.newPage()
