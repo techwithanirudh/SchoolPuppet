@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer");
 const fs = require("fs");
 const axios = require("axios"); 
 
-const wordToSearch = 'force';
+const wordToSearch = process.env['WORD_TO_SEARCH'];
 
 async function downloadFile(url, path) {
 	const response = await axios.get(url, { responseType: 'arraybuffer' });
@@ -51,13 +51,16 @@ async function downloadFile(url, path) {
   await page.waitFor('#accordion'); // Makes sure the form was loaded
 	
   const accordion = await page.waitForSelector("#accordion");
-	const pdfs = await accordion.evaluate(() => [...document.querySelectorAll('td a')].map(a => {return {text: a.textContent, url: a.href}}));
+	const pdfs = await accordion.evaluate(() => [...document.querySelectorAll('tbody tr')].map(tr => {return {text: tr.children[2].textContent, url: tr.children[5].querySelector('a') && tr.children[5].querySelector('a').href}}));
 
-	const filterdPdfs = pdfs.filter(a => a.text.toLowerCase().match(wordToSearch.toLowerCase()))
+	const filterdPdfs = pdfs.filter(tr => tr.text.toLowerCase().match(wordToSearch.toLowerCase()))
 	var filteredPdfUrls = []
-
-	filterdPdfs.forEach(pdf => {
-		filteredPdfUrls.push(pdf.url)
+	
+	filterdPdfs.forEach((pdf, i) => {
+		console.log(pdf.url)
+		if (pdf.url) {
+			filteredPdfUrls.push(pdf.url)
+		}
 	})
 
 // 	filteredPdfUrls.forEach(async (downloadUrl, i) => {
